@@ -1,7 +1,8 @@
 import LoginForm from "../components/Auth/LoginForm";
 import LoginIllustration from "../components/Auth/LoginIllustration";
 
-const Loginmain = () => {
+const Loginmain = ({HandleLogin}) => {
+ 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
 
@@ -10,7 +11,7 @@ const Loginmain = () => {
 
         {/* LEFT */}
         <div className="w-1/2 p-12">
-          <LoginForm />
+          <LoginForm HandleLogin={HandleLogin}/>
         </div>
 
         {/* RIGHT */}
