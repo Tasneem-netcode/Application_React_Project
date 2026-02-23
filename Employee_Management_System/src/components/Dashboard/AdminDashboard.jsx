@@ -22,7 +22,7 @@ const AdminDashboard = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     setSubmitted(true)
-    setTimeout(() => setSubmitted(false), 3000)
+    setTimeout(() => setSubmitted(false), 3000) // to remove the submitted message after 3 seconds
     setForm({ title: '', description: '', category: '', date: '', assignTo: '', priority: 'Medium' })
   }
 
