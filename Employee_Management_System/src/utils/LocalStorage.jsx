@@ -65,6 +65,8 @@ const employees = [
     email: "zaid@example.com",
     password: "123",
     role: "employee",
+    
+    failedTask: 0,
     tasks: [
       {
         title: "Database Optimization",
@@ -95,6 +97,7 @@ const employees = [
     email: "fatima@example.com",
     password: "123",
     role: "employee",
+    
     tasks: [
       {
         title: "Create Wireframes",
@@ -125,6 +128,7 @@ const employees = [
     email: "omar@example.com",
     password: "123",
     role: "employee",
+    
     tasks: [
       {
         title: "Setup CI/CD",
