@@ -3,7 +3,7 @@ import Header from '../Dashboard_Components/Header'
 import CreateTasksByAdmin from '../Dashboard_Components/CreateTasksByAdmin'
 import AllTasks from '../Dashboard_Components/AllTasks'
 
-const AdminDashboard = () => {
+const AdminDashboard = ({ HandleLogout }) => {
   const [form, setForm] = useState({
     title: '',
     description: '',
@@ -32,7 +32,7 @@ const AdminDashboard = () => {
   return (
     <div className='min-h-screen bg-[#1C1C1C] p-10'>
       {/* Header */}
-      <Header />
+      <Header HandleLogout={HandleLogout} />
 
       <CreateTasksByAdmin form={form} setForm={setForm} handleChange={handleChange} handleSubmit={handleSubmit} submitted={submitted} priorities={priorities} priorityColors={priorityColors} />
       <AllTasks/>

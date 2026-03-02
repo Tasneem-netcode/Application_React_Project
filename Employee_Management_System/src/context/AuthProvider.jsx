@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 const AuthProvider = ({ children }) => {
 
   const [userData, setUserData] = useState(null)
-
+// localStorage.clear()
   useEffect(() => {
     setLocalStorage()
     const { employees, admin } = getLocalStorage()
@@ -13,7 +13,7 @@ const AuthProvider = ({ children }) => {
   }, [])
 
   
-  return (
+  return ( 
     <AuthContext.Provider value={userData}>
       {children}
     </AuthContext.Provider>
