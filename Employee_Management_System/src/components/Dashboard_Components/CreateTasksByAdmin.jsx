@@ -1,6 +1,7 @@
 import React from 'react'
 
-const CreateTasksByAdmin = ({form, setForm, handleChange, handleSubmit, submitted, priorities, priorityColors}) => {
+const CreateTasksByAdmin = ({form, setForm, handleChange, handleSubmit, submitted, priorities, priorityColors, taskCounts = {}}) => {
+  const { total = 0, inProgress = 0, completed = 0, failed = 0, newTasks = 0 } = taskCounts
   return (
     <div>
         {/* Page Title */}
@@ -157,26 +158,49 @@ const CreateTasksByAdmin = ({form, setForm, handleChange, handleSubmit, submitte
       </div>
 
       {/* Bottom Info Cards */}
-      <div className='grid grid-cols-3 gap-5 mt-8'>
+      <div className='grid grid-cols-5 gap-4 mt-8'>
+        {/* Total Tasks */}
         <div className='bg-[#2a2a2a] rounded-2xl p-5 flex items-center gap-4'>
           <div className='w-12 h-12 rounded-xl bg-[#F8C8C4] flex items-center justify-center text-2xl'>📋</div>
           <div>
             <p className='text-gray-400 text-xs uppercase tracking-wider'>Total Tasks</p>
-            <p className='text-white text-2xl font-bold'>0</p>
+            <p className='text-white text-2xl font-bold'>{total}</p>
           </div>
         </div>
+
+        {/* In Progress */}
         <div className='bg-[#2a2a2a] rounded-2xl p-5 flex items-center gap-4'>
           <div className='w-12 h-12 rounded-xl bg-[#FDEBD0] flex items-center justify-center text-2xl'>⚡</div>
           <div>
             <p className='text-gray-400 text-xs uppercase tracking-wider'>In Progress</p>
-            <p className='text-white text-2xl font-bold'>0</p>
+            <p className='text-white text-2xl font-bold'>{inProgress}</p>
           </div>
         </div>
+
+        {/* Completed */}
         <div className='bg-[#2a2a2a] rounded-2xl p-5 flex items-center gap-4'>
           <div className='w-12 h-12 rounded-xl bg-[#D1F2EB] flex items-center justify-center text-2xl'>✅</div>
           <div>
             <p className='text-gray-400 text-xs uppercase tracking-wider'>Completed</p>
-            <p className='text-white text-2xl font-bold'>0</p>
+            <p className='text-white text-2xl font-bold'>{completed}</p>
+          </div>
+        </div>
+
+        {/* Failed Tasks */}
+        <div className='bg-[#2a2a2a] rounded-2xl p-5 flex items-center gap-4'>
+          <div className='w-12 h-12 rounded-xl bg-[#FADADD] flex items-center justify-center text-2xl'>❌</div>
+          <div>
+            <p className='text-gray-400 text-xs uppercase tracking-wider'>Failed Tasks</p>
+            <p className='text-white text-2xl font-bold'>{failed}</p>
+          </div>
+        </div>
+
+        {/* New Tasks */}
+        <div className='bg-[#2a2a2a] rounded-2xl p-5 flex items-center gap-4'>
+          <div className='w-12 h-12 rounded-xl bg-[#D7BDE2] flex items-center justify-center text-2xl'>🆕</div>
+          <div>
+            <p className='text-gray-400 text-xs uppercase tracking-wider'>New Tasks</p>
+            <p className='text-white text-2xl font-bold'>{newTasks}</p>
           </div>
         </div>
       </div>
