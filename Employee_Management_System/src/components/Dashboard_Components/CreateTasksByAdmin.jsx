@@ -1,7 +1,9 @@
 import React from 'react'
 
-const CreateTasksByAdmin = ({form, setForm, handleChange, handleSubmit, submitted, priorities, priorityColors, taskCounts = {}}) => {
+const CreateTasksByAdmin = ({form, setForm, handleChange, handleSubmit, submitted, submitError, priorities, priorityColors, taskCounts = {}}) => {
   const { total = 0, inProgress = 0, completed = 0, failed = 0, newTasks = 0 } = taskCounts
+
+  
   return (
     <div>
         {/* Page Title */}
@@ -14,7 +16,15 @@ const CreateTasksByAdmin = ({form, setForm, handleChange, handleSubmit, submitte
       {submitted && (
         <div className='mb-6 flex items-center gap-3 bg-[#D1F2EB] text-green-900 px-5 py-3 rounded-xl font-medium shadow-lg'>
           <span className='text-xl'>✅</span>
-          <span>Task created successfully!</span>
+          <span>Task created and assigned successfully!</span>
+        </div>
+      )}
+
+      {/* Error Toast */}
+      {submitError && (
+        <div className='mb-6 flex items-center gap-3 bg-[#FADADD] text-red-900 px-5 py-3 rounded-xl font-medium shadow-lg'>
+          <span className='text-xl'>⚠️</span>
+          <span>{submitError}</span>
         </div>
       )}
 
@@ -158,52 +168,39 @@ const CreateTasksByAdmin = ({form, setForm, handleChange, handleSubmit, submitte
       </div>
 
       {/* Bottom Info Cards */}
-      <div className='grid grid-cols-5 gap-4 mt-8'>
-        {/* Total Tasks */}
-        <div className='bg-[#2a2a2a] rounded-2xl p-5 flex items-center gap-4'>
-          <div className='w-12 h-12 rounded-xl bg-[#F8C8C4] flex items-center justify-center text-2xl'>📋</div>
-          <div>
-            <p className='text-gray-400 text-xs uppercase tracking-wider'>Total Tasks</p>
-            <p className='text-white text-2xl font-bold'>{total}</p>
+      {(() => {
+        const statCards = [
+          { label: 'Total',       value: total,      icon: '📋', bg: '#2a2a2a',  accent: '#94a3b8' },
+          { label: 'New',         value: newTasks,   icon: '🆕', bg: '#1e1040',  accent: '#a78bfa' },
+          { label: 'In Progress', value: inProgress, icon: '⚡', bg: '#2d1f02',  accent: '#f59e0b' },
+          { label: 'Completed',   value: completed,  icon: '✅', bg: '#052e16',  accent: '#22c55e' },
+          { label: 'Failed',      value: failed,     icon: '❌', bg: '#2d0505',  accent: '#ef4444' },
+        ]
+        return (
+          <div className='grid grid-cols-5 gap-4 mt-8'>
+            {statCards.map((s) => (
+              <div
+                key={s.label}
+                className='rounded-2xl p-5 flex items-center gap-4'
+                style={{ background: s.bg, border: `1px solid ${s.accent}22` }}
+              >
+                <div
+                  className='w-11 h-11 rounded-xl flex items-center justify-center text-xl shrink-0'
+                  style={{ background: `${s.accent}22` }}
+                >
+                  {s.icon}
+                </div>
+                <div>
+                  <p className='text-xs uppercase tracking-wider font-semibold' style={{ color: s.accent }}>
+                    {s.label}
+                  </p>
+                  <p className='text-white text-2xl font-bold mt-0.5'>{s.value}</p>
+                </div>
+              </div>
+            ))}
           </div>
-        </div>
-
-        {/* In Progress */}
-        <div className='bg-[#2a2a2a] rounded-2xl p-5 flex items-center gap-4'>
-          <div className='w-12 h-12 rounded-xl bg-[#FDEBD0] flex items-center justify-center text-2xl'>⚡</div>
-          <div>
-            <p className='text-gray-400 text-xs uppercase tracking-wider'>In Progress</p>
-            <p className='text-white text-2xl font-bold'>{inProgress}</p>
-          </div>
-        </div>
-
-        {/* Completed */}
-        <div className='bg-[#2a2a2a] rounded-2xl p-5 flex items-center gap-4'>
-          <div className='w-12 h-12 rounded-xl bg-[#D1F2EB] flex items-center justify-center text-2xl'>✅</div>
-          <div>
-            <p className='text-gray-400 text-xs uppercase tracking-wider'>Completed</p>
-            <p className='text-white text-2xl font-bold'>{completed}</p>
-          </div>
-        </div>
-
-        {/* Failed Tasks */}
-        <div className='bg-[#2a2a2a] rounded-2xl p-5 flex items-center gap-4'>
-          <div className='w-12 h-12 rounded-xl bg-[#FADADD] flex items-center justify-center text-2xl'>❌</div>
-          <div>
-            <p className='text-gray-400 text-xs uppercase tracking-wider'>Failed Tasks</p>
-            <p className='text-white text-2xl font-bold'>{failed}</p>
-          </div>
-        </div>
-
-        {/* New Tasks */}
-        <div className='bg-[#2a2a2a] rounded-2xl p-5 flex items-center gap-4'>
-          <div className='w-12 h-12 rounded-xl bg-[#D7BDE2] flex items-center justify-center text-2xl'>🆕</div>
-          <div>
-            <p className='text-gray-400 text-xs uppercase tracking-wider'>New Tasks</p>
-            <p className='text-white text-2xl font-bold'>{newTasks}</p>
-          </div>
-        </div>
-      </div>
+        )
+      })()}
     </div>
   )
 }

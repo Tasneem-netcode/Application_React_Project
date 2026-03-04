@@ -71,7 +71,7 @@ const App = () => {
   const HandleLogout = () => {
     localStorage.removeItem("LoggedInUser")
     setuser(null)
-    window.location.reload()
+    // window.location.reload()
     setloggedInUserData(null)
   }
 

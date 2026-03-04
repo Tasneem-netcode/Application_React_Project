@@ -1,16 +1,40 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Header from '../Dashboard_Components/Header'
 import TaskList, { AcceptTask, NewTask, CompleteTask, FailedTask } from '../TaskList/TaskList'
 
 const EmpDashboard = ({ data, HandleLogout }) => {
   const [employeeData, setEmployeeData] = useState(data)
-  const [activeTab, setActiveTab] = useState('all') // 'all' | 'completed' | 'failed'
+  const [activeTab, setActiveTab]       = useState('all')
+
+  // ── Sync from localStorage ─────────────────────────────────────────────────
+  // When the admin creates a new task for this employee, it is written to
+  // localStorage. We poll for fresh data on focus and on a short interval
+  // so the employee dashboard reflects changes without needing a page reload.
+  useEffect(() => {
+    const syncFromStorage = () => {
+      const employees = JSON.parse(localStorage.getItem('employees')) || []
+      const fresh = employees.find((emp) => emp.id === data.id)
+      if (fresh) setEmployeeData(fresh)
+    }
+
+    // Sync immediately in case tasks were added before this component mounted
+    syncFromStorage()
+
+    // Sync whenever the user refocuses the tab
+    window.addEventListener('focus', syncFromStorage)
+
+    // Also poll every 3 seconds so the UI updates even without a focus event
+    const interval = setInterval(syncFromStorage, 3000)
+
+    return () => {
+      window.removeEventListener('focus', syncFromStorage)
+      clearInterval(interval)
+    }
+  }, [data.id])
 
   const handleTaskUpdate = (updatedData) => {
     setEmployeeData(updatedData)
   }
-
-
 
   return (
     <div className='flex h-screen bg-[#1C1C1C] overflow-hidden'>
@@ -75,9 +99,9 @@ const EmpDashboard = ({ data, HandleLogout }) => {
 
           {/* Tab Content */}
           <div className='bg-[#2a2a2a] rounded-xl p-5'>
-            {activeTab === 'all' && <AcceptTask data={employeeData} />}
+            {activeTab === 'all'       && <AcceptTask   data={employeeData} onTaskUpdate={handleTaskUpdate} />}
             {activeTab === 'completed' && <CompleteTask data={employeeData} />}
-            {activeTab === 'failed' && <FailedTask data={employeeData} />}
+            {activeTab === 'failed'    && <FailedTask   data={employeeData} />}
           </div>
 
         </div>
