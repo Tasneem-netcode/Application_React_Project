@@ -76,13 +76,13 @@ const AcceptTask = ({ data, onTaskUpdate }) => {
             {/* Top Row: Title + Status Badge */}
             <div className='flex justify-between items-start mb-2'>
               <div>
-                <h3 className='text-black text-base font-bold'>{task.title}</h3>
-                <span className='text-black text-xs opacity-60'>{task.category}</span>
+                <h3 className='text-black text-lg font-bold'>{task.title}</h3>
+                <span className='text-black text-sm opacity-60'>{task.category}</span>
               </div>
               <div className='flex flex-col items-end gap-1'>
-                <span className='text-black text-xs opacity-60 whitespace-nowrap'>{task.date}</span>
+                <span className='text-black text-sm opacity-60 whitespace-nowrap'>{task.date}</span>
                 <span
-                  className='text-black text-xs font-bold px-2 py-0.5 rounded-full'
+                  className='text-black text-sm font-bold px-2.5 py-0.5 rounded-full'
                   style={{ backgroundColor: colors.badge }}
                 >
                   {getStatusLabel(task)}
@@ -92,7 +92,7 @@ const AcceptTask = ({ data, onTaskUpdate }) => {
 
             {/* Description */}
             {task.description && (
-              <p className='text-black text-sm opacity-70 mt-1 mb-3 leading-relaxed'>
+              <p className='text-black text-base opacity-70 mt-1 mb-3 leading-relaxed'>
                 {task.description}
               </p>
             )}
@@ -102,13 +102,13 @@ const AcceptTask = ({ data, onTaskUpdate }) => {
               <div className='flex justify-between gap-3 mt-3'>
                 <button
                   onClick={() => handleMarkComplete(index)}
-                  className='flex-1 py-2 px-4 rounded-xl text-black text-sm font-semibold bg-[#D5D8FF] hover:bg-[#bbbfff] active:scale-95 transition-all duration-150 shadow-sm'
+                  className='flex-1 py-2.5 px-4 rounded-xl text-black text-base font-semibold bg-[#D5D8FF] hover:bg-[#bbbfff] active:scale-95 transition-all duration-150 shadow-sm'
                 >
                   ✅ Mark as Complete
                 </button>
                 <button
                   onClick={() => handleMarkFailed(index)}
-                  className='flex-1 py-2 px-4 rounded-xl text-black text-sm font-semibold bg-black/10 hover:bg-black/20 active:scale-95 transition-all duration-150 shadow-sm'
+                  className='flex-1 py-2.5 px-4 rounded-xl text-black text-base font-semibold bg-black/10 hover:bg-black/20 active:scale-95 transition-all duration-150 shadow-sm'
                 >
                   ❌ Mark as Failed
                 </button>
@@ -117,12 +117,12 @@ const AcceptTask = ({ data, onTaskUpdate }) => {
 
             {/* Completed message */}
             {task.completed && (
-              <p className='text-black text-xs opacity-60 mt-2 font-medium'>🎉 Task Completed</p>
+              <p className='text-black text-sm opacity-60 mt-2 font-medium'>🎉 Task Completed</p>
             )}
 
             {/* Failed message */}
             {task.failed && (
-              <p className='text-black text-xs opacity-60 mt-2 font-medium'>⚠️ Task Failed</p>
+              <p className='text-black text-sm opacity-60 mt-2 font-medium'>⚠️ Task Failed</p>
             )}
           </div>
         )

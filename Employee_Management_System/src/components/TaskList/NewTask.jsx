@@ -4,10 +4,6 @@ const NewTask = ({ data, onTaskUpdate }) => {
   const newTasks = data.tasks.filter(task => task.newTask)
 
   const handleAcceptTask = (taskIndex) => {
-    // Find the global index of this new task in data.tasks
-    const globalIndex = data.tasks.findIndex(
-      (task, i) => task.newTask && data.tasks.indexOf(task) === taskIndex
-    )
 
     // Build the updated tasks array: flip newTask → false, active → true
     const updatedTasks = data.tasks.map((task, i) => {
@@ -37,8 +33,8 @@ const NewTask = ({ data, onTaskUpdate }) => {
     return (
       <div className='flex flex-col items-center justify-center py-10 text-center'>
         <span className='text-4xl mb-3'>🎉</span>
-        <p className='text-gray-400 text-sm font-medium'>No new tasks right now!</p>
-        <p className='text-gray-600 text-xs mt-1'>All caught up. Check back later.</p>
+        <p className='text-gray-400 text-base font-medium'>No new tasks right now!</p>
+        <p className='text-gray-600 text-sm mt-1'>All caught up. Check back later.</p>
       </div>
     )
   }
@@ -56,12 +52,12 @@ const NewTask = ({ data, onTaskUpdate }) => {
             {/* Top Row: Title + Date */}
             <div className='flex justify-between items-start mb-2'>
               <div>
-                <h3 className='text-black text-base font-bold leading-tight'>{task.title}</h3>
-                <span className='text-black text-xs opacity-60 font-medium'>{task.category}</span>
+                <h3 className='text-black text-lg font-bold leading-tight'>{task.title}</h3>
+                <span className='text-black text-sm opacity-60 font-medium'>{task.category}</span>
               </div>
               <div className='flex flex-col items-end gap-1'>
-                <span className='text-black text-xs opacity-50 whitespace-nowrap'>{task.date}</span>
-                <span className='text-black text-xs font-bold px-2 py-0.5 rounded-full bg-[#e8a09a]'>
+                <span className='text-black text-sm opacity-50 whitespace-nowrap'>{task.date}</span>
+                <span className='text-black text-sm font-bold px-2.5 py-0.5 rounded-full bg-[#e8a09a]'>
                   🆕 New
                 </span>
               </div>
@@ -69,7 +65,7 @@ const NewTask = ({ data, onTaskUpdate }) => {
 
             {/* Description */}
             {task.description && (
-              <p className='text-black text-sm opacity-70 mt-1 mb-3 leading-relaxed'>
+              <p className='text-black text-base opacity-70 mt-1 mb-3 leading-relaxed'>
                 {task.description}
               </p>
             )}
@@ -77,7 +73,7 @@ const NewTask = ({ data, onTaskUpdate }) => {
             {/* Accept Task Button */}
             <button
               onClick={() => handleAcceptTask(index)}
-              className='w-full mt-2 py-2 px-4 rounded-xl text-black text-sm font-semibold
+              className='w-full mt-2 py-2.5 px-4 rounded-xl text-black text-base font-semibold
                          bg-[#FDEBD0] hover:bg-[#f5c98a] active:scale-95
                          transition-all duration-150 shadow-sm hover:shadow-md'
             >
