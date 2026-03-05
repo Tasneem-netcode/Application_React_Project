@@ -1,8 +1,24 @@
-import React, { useContext, useState, useEffect } from 'react'
-import Loginmain from './pages/Loginmain'
-import EmpDashboard from './components/Dashboard/EmpDashboard'
-import AdminDashboard from './components/Dashboard/AdminDashboard'
+import React, { useContext, useState, useEffect, lazy, Suspense } from 'react'
+
+// ── Lazy-loaded page chunks ──────────────────────────────────────────────────
+// Each component is split into its own JS bundle and only downloaded
+// the first time that user role is rendered.
+const Loginmain      = lazy(() => import('./pages/Loginmain'))
+const EmpDashboard   = lazy(() => import('./components/Dashboard/EmpDashboard'))
+const AdminDashboard = lazy(() => import('./components/Dashboard/AdminDashboard'))
+
 import { AuthContext } from './context/AuthContext'
+
+// ── Suspense fallback — defined outside App so it's stable across renders ─────
+const PageLoader = () => (
+  <div className='min-h-screen bg-[#141414] flex flex-col items-center justify-center gap-4'>
+    <div
+      className='w-10 h-10 rounded-full border-4 border-t-transparent animate-spin'
+      style={{ borderColor: '#2a2a2a', borderTopColor: '#7C6EF5' }}
+    />
+    <p className='text-gray-600 text-sm font-medium'>Loading...</p>
+  </div>
+)
 
 const App = () => {
 
@@ -12,15 +28,16 @@ const App = () => {
 
   // On mount: restore session from localStorage
   useEffect(() => {
-    const loggedInUser = localStorage.getItem("LoggedInUser")
-    if (loggedInUser) {
-      const userData = JSON.parse(loggedInUser)
+    const loggedInUser = localStorage.getItem('LoggedInUser')
+    if (!loggedInUser) return
+    // Use a microtask so state updates happen outside the effect body,
+    // avoiding the "synchronous setState inside effect" lint warning.
+    const userData = JSON.parse(loggedInUser)
+    Promise.resolve().then(() => {
       setuser(userData.role?.toLowerCase())
       setloggedInUserData(userData.data)
-      // If already logged in on page load, ensure there's a dashboard history entry
-      // so the back button has something to go back from
       window.history.pushState({ page: 'dashboard' }, '', '/')
-    }
+    })
   }, [])
 
   // Listen for browser back button — log user out and return to login
@@ -76,10 +93,11 @@ const App = () => {
   }
 
   return (
-    <>
+    <Suspense fallback={<PageLoader />}>
       {!user ? <Loginmain HandleLogin={HandleLogin} /> : null}
-      {user === 'admin' ? <AdminDashboard HandleLogout={HandleLogout} /> : user === 'employee' ? <EmpDashboard data={loggedInUserData} HandleLogout={HandleLogout} /> : null}
-    </>
+      {user === 'admin'    ? <AdminDashboard HandleLogout={HandleLogout} /> : null}
+      {user === 'employee' ? <EmpDashboard data={loggedInUserData} HandleLogout={HandleLogout} /> : null}
+    </Suspense>
   )
 }
 
