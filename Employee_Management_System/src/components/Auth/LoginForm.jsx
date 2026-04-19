@@ -12,6 +12,15 @@ const LoginForm = ({ HandleLogin }) => {
     setPassword("")
   }
 
+  const quickLogin = (loginEmail, loginPassword) => {
+    setEmail(loginEmail)
+    setPassword(loginPassword)
+    // Use setTimeout to ensure state updates before calling HandleLogin
+    setTimeout(() => {
+      HandleLogin(loginEmail, loginPassword)
+    }, 0)
+  }
+
   return (
     <div className="w-full max-w-sm mx-auto">
 
@@ -105,6 +114,34 @@ const LoginForm = ({ HandleLogin }) => {
         </button>
 
       </form>
+
+      {/* Divider */}
+      <div className="flex items-center gap-3 my-6">
+        <div className="flex-1 h-px bg-white/10" />
+        <span className="text-gray-600 text-xs">QUICK LOGIN</span>
+        <div className="flex-1 h-px bg-white/10" />
+      </div>
+
+      {/* Quick Login Buttons */}
+      <div className="flex flex-col gap-2.5">
+        <button
+          type="button"
+          onClick={() => quickLogin("admin@example.com", "123")}
+          className="w-full py-2.5 px-4 rounded-xl text-white text-sm font-semibold transition-all duration-200 active:scale-95 flex items-center justify-center gap-2 hover:shadow-lg"
+          style={{ background: 'linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%)' }}
+        >
+          <span>🔑</span> Login as Admin
+        </button>
+
+        <button
+          type="button"
+          onClick={() => quickLogin("ayaan@example.com", "123")}
+          className="w-full py-2.5 px-4 rounded-xl text-white text-sm font-semibold transition-all duration-200 active:scale-95 flex items-center justify-center gap-2 hover:shadow-lg"
+          style={{ background: 'linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%)' }}
+        >
+          <span>👤</span> Login as Employee
+        </button>
+      </div>
 
       {/* Divider */}
       <div className="flex items-center gap-3 my-6">
